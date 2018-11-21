@@ -12,17 +12,15 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link href={% static "CSS/style.css" %} rel="stylesheet" type="text/css" />
   
-  <!-- <link rel="stylesheet" href="\runmate_project\leaflet\leaflet.css" />
-  <script src="\runmate_project\leaflet\leaflet.css"></script>
-  <script src="\runmate_project\leaflet\leaflet.js"</script>
+  <!-- <link rel="stylesheet" href="\runmate_project\leaflet.css"/>
+  <script src="\runmate_project\leaflet.js"></script>
   <style>
-	#map{ height: 100% }
+    #map{ height: 100% }
   </style>
   -->
   
-  <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
+  <!-- <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"> </script>
   <script>
 	$(document).ready(function()
 	{
@@ -38,10 +36,11 @@
 	{
 		$(xml).find("trkpt").each(function()
 		{
-			L.marker([$this.attr("lat")].text(),$(this).attr("long").text()]).addTo(MyMap)
+			mapPoint = L.marker([$this.attr("lat")].text(),$(this).attr("long").text()]).addTo(MyMap);
 		});
 	}
-   </script>
+  </script>
+  -->
    
 </head>
 
@@ -70,7 +69,7 @@
 <div id="home">
   <div class="landing-text" style="background-image: url(../static/img/running.jpg); background-size:cover">
     <h1>RUNMATE</h1>
-    <h3>Click the button below to upload your run</h3>
+    <h3 style="color:black">Click the button below to upload your run</h3>
     <a href="#data" class="btn btn-default btn-lg">Upload your run</a>
   </div>
 </div>
@@ -92,23 +91,23 @@
       <a href="#" class="btn btn-default btn-lg">Upload Another Run</a>
       </div>
   </div>
+ </div>
   
-  <div id="MyMap" style="width: 800px; height: 400px"> </div>
-		<script>
-			var zoom = 12;
-			var lat = 39.1671;
-			var long = -86.5343;
-			
-			var map = L.map('MyMap').setView([lat, long], zoom);
-			L.tileLayer('http://{s}.tile.cloudmade.com/c445219bea9b43fcac9d57b7a37f46bd/997/256/{z}/{x}/{y}.png', { maxZoom: 18, attribution: 'Map data &copy; 
-			<a href="http://openstreetmap.org">OpenStreetMap</a> contributors, 
-			<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © 
-			<a href="http://cloudmade.com">CloudMade</a>' }).addTo(MyMap);
-		</script>
-    </div>
-	
-	
-</div>
+  <!-- div id="map"></div>
+
+  <script>
+	// initialize the map
+	var map = L.map('map').setView([42.35, -71.08], 13);
+
+    // load a tile layer
+	L.tileLayer('http://tiles.mapc.org/basemap/{z}/{x}/{y}.png',
+    {
+      attribution: 'Tiles by <a href="http://mapc.org">MAPC</a>, Data by <a href="http://mass.gov/mgis">MassGIS</a>',
+      maxZoom: 17,
+      minZoom: 9
+    }).addTo(map);
+
+  </script> -->
 
 
 <footer id="contact" class="container-fluid text-center">
