@@ -12,8 +12,8 @@
 	{	
 	
 		var distance = 0
-		var count = $(xml).find("trkpt");
-		count = count.length;
+		
+		//for times
 		var start = $(xml).find("time").first().text();
 		let startDT = new Date(start);
 		var end = $(xml).find("time").last().text();
@@ -23,15 +23,26 @@
 		difference -= hours * 1000 * 60 * 60;
 		var minutes = Math.floor(difference / 1000 / 60)
 		
+		var avgHeartRate = 0;
+		var avgCadence = 0;
+		
+		var size = parseInt($(xml).find("trkpt").length);
+		
+		
 		$(xml).find("trkpt").each(function()
 		{
 			mapPoint = L.marker([$(this).attr("lat"), $(this).attr("lon")]).addTo(mapid);	
-			let dateTime = new Date($(this).find("time").text());
-			mapPoint.bindPopup("Time: " + dateTime + "</br> </br> Elevation: " + parseFloat($(this).find("ele").text()).toFixed(1) + "ft");
 			
-			//+ "</br>" + "Heart Rate: " + $(this).find("ns3:hr").text() + "</br>" + "Cadence: " + $(this).find("ns3:cad").text() + "</br>" );
+			let dateTime = new Date($(this).find("time").text());
+			
+			//for average heart rate
+			var heartRate = parseInt($(this).find("ns3\\:hr").text());
+			avgHeartRate += heartRate;
 
-
+			//for average cadence
+			var cadence = parseInt($(this).find("ns3\\:cad").text());
+			avgCadence += cadence; 
+			
 			var lat1 = parseFloat($(this).attr("lat"));
 			var lon1 = parseFloat($(this).attr("lon"));
 			var lat2 = parseFloat($(this).next().attr("lat"));
@@ -40,10 +51,36 @@
 			if (!isNaN(d)) {
 				distance += d;
 			}
+			
+			var hour = dateTime.getHours();
+			var mins = dateTime.getMinutes();
+			var seconds = dateTime.getSeconds();
+			
+			if(mins<10) 
+				minuteString = "0"+mins+"";
+			else
+				minuteString = mins;
+			
+			if (seconds<10)
+				secondString = "0"+seconds+"";
+			else
+				secondString = seconds;
+			
+			var time = hour + ":" + minuteString + ":" + secondString;
+			
+			mapPoint.bindPopup("Time: " + time + "</br> Distance ran from start point: " + distance.toFixed(2) + " miles </br> </br> Heart Rate: " + heartRate + " beats per min </br> Cadence:" + cadence + " steps per min </br> Elevation: " + parseFloat($(this).find("ele").text()).toFixed(1) + "ft");
 		});
+		
+		var averageHR = avgHeartRate / size;
+		var averageC = avgCadence / size; 
+		
+		var pace = minutes / distance; 
 		
 		$("#distanceRan").append("Distance ran: " + parseFloat(distance).toFixed(2) + " miles");
 		$("#duration").append("Duration of run: " + minutes + " minutes");
+		$("#averageHeartRate").append("Average heartrate: " + averageHR.toFixed(0) + " beats per minute");
+		$("#averageCadence").append("Average cadence: " + averageC.toFixed(0) + " steps per minute");
+		$("#averagePace").append("Average pace: " + pace.toFixed(2) + " minutes per mile");
 				
 	}; 
 	
