@@ -60,7 +60,8 @@ footer {
 	width: 100%;
 	background-color: orange;
 	padding: 5% 5% 10% 5%;
-	color: black
+	color: black;
+	text-align: center;
 }
 
 .fa {
@@ -73,7 +74,5 @@ footer {
 	color: #D5D5D5;
 	text-decoration: none;
 }
-
-
 
 

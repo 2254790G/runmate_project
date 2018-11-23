@@ -12,5 +12,3 @@ from django.http import HttpResponse
 def index(request):
     return render(request, 'runmate/index.html', {})
 
-def dataView(request):
-    return render(request, 'runmate/loadedData.html', {})

@@ -19,25 +19,8 @@
    integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
    crossorigin=""></script>
    
-   <script>
-    $(document).ready(function()
-	{
-		$.ajax({
-			type: "GET",
-			url: "/static/GPX/Lugano.gpx",
-			dataType: "xml",
-			success: parseXml
-		});
-	});
-
-	function parseXml(xml)
-	{	
-		$(xml).find("trkpt").each(function()
-		{
-			mapPoint = L.marker([$(this).attr("lat"), $(this).attr("lon")]).addTo(mapid);
-		});
-	}
-   </script>   
+   
+   <script type="text/javascript" src="static/javascript/readGPX.js" ></script>
    
    <style>
 	#mapid {height: 600px; width: 600px;}
@@ -70,27 +53,28 @@
 <div id="home">
   <div class="landing-text" style="background-image: url(../static/img/running.jpg); background-size:cover">
     <h1>RUNMATE</h1>
-    <h3 style="color:black">Click the button below to upload your run</h3>
-    <a href="#data" class="btn btn-default btn-lg">Upload your run</a>
+    <h3 style="color:#FFC46A;"> Click the button below to upload your run</h3>
+	</br>
+    <!-- <a href="#data" class="btn btn-default btn-lg">Upload your run</a> -->
+	<center> <form id="xmlForm" action="" method="POST">
+	<input type="file" name="xmlFile" id="xmlFile" class="btn btn-default btn-lg" accept=".gpx"/>
+	</br>
+	<input type="submit" value="Upload your run" class="btn btn-default btn-lg" name="submit"/>
+	</form>  </center>
+	
+	
   </div>
 </div>
 
 <div id="data" class="padding">
   <div class="container">
     <div class="col-sm-6">
-      <h3>Distance Ran</h3>
-      <form action="">
-        Distance in miles: <input type="text" name="distance"><br>
-        <input type="submit" value="Submit">
-      </form>
-      <h3>Duration Ran</h3>
-      <form action="">
-        Duration in Minutes: <input type="text" name="duration"><br>
-        <input type="submit" value="Submit">
-      </form>
-	  <div id="output"></div>
+      <h3><div id="distanceRan"></div></h3>
+	  <h3><div id="duration"></div></h3>
+	  </br>
 	  <div id="mapid"></div>
       <div>
+	  </br>
       <a href="#" class="btn btn-default btn-lg">Upload Another Run</a>
       </div>
 	</div>
@@ -102,7 +86,7 @@
 		
 		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', { 
 			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-			maxZoom: 18,
+			maxZoom: 30,
 			id: 'mapbox.streets',
 			accessToken: 'pk.eyJ1IjoiMjI1NDc5MGciLCJhIjoiY2pvcnJjcW5xMGdxbTNrcGg3bXZhajF4diJ9.chhl3I6Y78H3F_YrFB-gWQ'
 		}).addTo(mapid);
@@ -115,17 +99,18 @@
   <div class="row">
     <div class="col-sm-4">
       <h3>Contact Us</h3>
-      <br>
+	  </br>
       <h4> University of Glasgow, Boyd Orr 720</h4>
-    </div>
-    <div class="col-sm-4">
+	  </br>
+	</div>
+	<div class="col-sm-4">
       <h3>Connect</h3>
-      <a href="#" class="fa fa-facebook"></a>
-      <a href="#" class="fa fa-twitter"></a>
-      <a href="#" class="fa fa-google"></a>
-      <a href="#" class="fa fa-youtube"></a>
-    </div>
-  </div>
+      <a href="https://www.facebook.com/hannah.fairlie" class="fa fa-facebook"></a>
+      <a href="https://twitter.com/amygillies_" class="fa fa-twitter"></a>
+      <a href="https://plus.google.com/102679763721060381276" class="fa fa-google"></a>
+      <a href="https://www.instagram.com/huriyah_h/?hl=en" class="fa fa-instagram"></a>
+	</div>
+   </div>
 </footer>
 
 </body>
