@@ -1,4 +1,4 @@
- $(document).ready(function()
+$(document).ready(function()
 	{
 		$.ajax({
 			type: "GET",
@@ -10,6 +10,13 @@
 	
 	function parseXml(xml)
 	{	
+		//var request = new XMLHttpRequest();
+		//let xml = document.getElementById("xmlFile").value;
+		//request.open("GET", xml, false);
+		//request.send();
+		//var xml = request.responseXML;
+
+		mapid.panTo(new L.LatLng(parseFloat($(xml).find("trkpt").first().attr("lat")),parseFloat($(xml).find("trkpt").first().attr("lon"))));
 	
 		var distance = 0
 		
@@ -23,15 +30,31 @@
 		difference -= hours * 1000 * 60 * 60;
 		var minutes = Math.floor(difference / 1000 / 60)
 		
+		
+		
 		var avgHeartRate = 0;
 		var avgCadence = 0;
 		
 		var size = parseInt($(xml).find("trkpt").length);
 		
+		var lineArray = new Array();
 		
+		firstPoint = L.marker([$(xml).find("trkpt").first().attr("lat"), $(xml).find("trkpt").first().attr("lon")], {fillColor: 'green'}).addTo(mapid);	
+
+				
 		$(xml).find("trkpt").each(function()
 		{
 			mapPoint = L.marker([$(this).attr("lat"), $(this).attr("lon")]).addTo(mapid);	
+		
+			/**var icon = mapPoint.options.icon;
+			icon.options.iconSize = [20,32];
+			icon.options.iconAnchor = [17, 37];
+			icon.options.shadowSize = [30,20];
+			mapPoint.setIcon(icon);**/
+			
+			var array = new Array(parseFloat($(this).attr("lat")),parseFloat($(this).attr("lon")));
+			
+			lineArray.push(array);
 			
 			let dateTime = new Date($(this).find("time").text());
 			
@@ -43,6 +66,8 @@
 			var cadence = parseInt($(this).find("ns3\\:cad").text());
 			avgCadence += cadence; 
 			
+			//for distance
+			
 			var lat1 = parseFloat($(this).attr("lat"));
 			var lon1 = parseFloat($(this).attr("lon"));
 			var lat2 = parseFloat($(this).next().attr("lat"));
@@ -52,6 +77,7 @@
 				distance += d;
 			}
 			
+			//for current time on map point
 			var hour = dateTime.getHours();
 			var mins = dateTime.getMinutes();
 			var seconds = dateTime.getSeconds();
@@ -68,7 +94,7 @@
 			
 			var time = hour + ":" + minuteString + ":" + secondString;
 			
-			mapPoint.bindPopup("Time: " + time + "</br> Distance ran from start point: " + distance.toFixed(2) + " miles </br> </br> Heart Rate: " + heartRate + " beats per min </br> Cadence:" + cadence + " steps per min </br> Elevation: " + parseFloat($(this).find("ele").text()).toFixed(1) + "ft");
+			mapPoint.bindPopup("Time: " + time + "</br> Distance ran from start point: " + distance.toFixed(2) + " miles </br> </br> Heart Rate: " + heartRate + " beats per min </br> Cadence: " + cadence + " steps per min </br> Elevation: " + parseFloat($(this).find("ele").text()).toFixed(1) + "ft");
 		});
 		
 		var averageHR = avgHeartRate / size;
@@ -82,6 +108,9 @@
 		$("#averageCadence").append("Average cadence: " + averageC.toFixed(0) + " steps per minute");
 		$("#averagePace").append("Average pace: " + pace.toFixed(2) + " minutes per mile");
 				
+		var multiPolyLineOptions = {color:'orange'};
+		var polyline = L.polyline(lineArray, multiPolyLineOptions);
+		polyline.addTo(mapid);
 	}; 
 	
 	function getDistance(lat1, lat2, lon1, lon2) {
