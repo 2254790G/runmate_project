@@ -1,81 +1,20 @@
-/**$(document).ready(function()
+$(document).ready(function()
 	{
-		$.ajax({
-			type: "GET",
-			url: "/static/GPX/Lugano.gpx",
-			dataType: "xml",
-			success: parseXml
+		$('#file').change(function () {
+			$.ajax({
+				type: "GET",
+				url: "/static/GPX/" + $('input[type=file]').val().split('\\').pop(),
+				dataType: "xml",
+				success: parseXml
+			)};
 		});
-	});**/
-	
-	$('#xmlFile').change(function(){
-		var file = document.getElementById('xmlFile').files[0];
-		var reader = new FileReader();
-		reader.readAsText(file);
-		reader.onloadend = function() {
-			var xml = $(reader.result);
-			parseXml(xml);
-		};
 	});
-	
-	/**function openFile = function(event) {
-		var input = event.target;
-		var text = "";
-		var reader = new FileReader();
-		var onload = function(event) {
-			text = reader.result;
-			var xml = $.parseXML(text);
-			parseXml(xml);
-		};
-		reader.onload = onload;
-		reader.readAsText(input.files[0]);
-	};**/
-	
-	
-	
-	/**function openFile() {
-		var form = document.getElementById('xmlForm');
-		form.onsubmit = function() {
-			var formData = new formData(form);
-			
-			formData.append('file', file);
-			
-			var xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					parseXml(this);
-				}
-			};
-			xhr.open('POST', form.getAttribute('action'), true);
-			xhr.send(formData);
-		}
-	}**/
-	
-	
-	/**$(function () {
-		$("submit").bind("click", function () {
-			var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.gpx)$/;
-                if (regex.test($("#xmlFile").val().toLowerCase())) {
-                    if (typeof (FileReader) != "undefined") {
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                            var xml = $.parseXML(e.target.result);
-							parseXML(xml);
-						});
-					}
-					reader.readAsText($("#xmlFile")[0].files[0]);
-                } else {
-                    alert("This browser does not support HTML5.");
-                }
-            } else {
-                alert("Please upload a valid XML file.");
-            }
-        });
-	}); **/
-	
+
 	function parseXml(xml)
 	{	
 
+		console.log(xml); 
+		
 		mapid.panTo(new L.LatLng(parseFloat($(xml).find("trkpt").first().attr("lat")),parseFloat($(xml).find("trkpt").first().attr("lon"))));
 	
 		var distance = 0;

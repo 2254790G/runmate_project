@@ -55,15 +55,12 @@
     <h1>RUNMATE</h1>
     <h3 style="color:#FFC46A;"> Click the button below to upload your run</h3>
 	</br>
-	<div id="upload">
-	<center> <form id="xmlForm" action="#data" method="post" >
-	{% csrf_token %}
-	<input type="file" name="xmlFile" id="xmlFile" class="btn btn-default btn-lg" accept=".gpx" />
+	<center>
+	<input type="file" id="file" class="btn btn-default btn-lg" accept=".gpx" />
 	</br>
-	<input type="submit" id="submit" value="Upload your run" class="btn btn-default btn-lg" onclick="openFile(event)" name="submit"/>
-	</form>  </center> 
-	</div>
-	
+	<!-- <input type="submit" id="submit" action='#data' value="Upload your run" class="btn btn-default btn-lg" /> -->
+	</form> 
+	</center>
   </div>
 </div>
 
